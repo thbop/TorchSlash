@@ -1,0 +1,8 @@
+You get swarmed by ghosts
+You cannot see besides what is illuminated by the torch
+You have a circular splash damage attack the kills nearby ghosts (torch getting brighter)
+    This attack has a cool down
+
+When hit by a ghost, it launches you up and away also damaging you
+
+fade in and out light
