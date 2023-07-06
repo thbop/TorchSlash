@@ -51,10 +51,16 @@ class Tiles:
         self.level_size = Vector2(0, 0)
     
     def add(self, rect, tile, i, solid=True):
-        if solid:
-            self.solids.append(Tile(rect, tile, i))
-        else:
-            self.airs.append(Tile(rect, tile, i))
+        dup = False
+        for t in self.solids + self.airs:
+            if t.rect == rect:
+                dup = True
+        if not dup:
+            if solid:
+                self.solids.append(Tile(rect, tile, i))
+            else:
+                self.airs.append(Tile(rect, tile, i))
+    
     
     def load(self, name):
         file = open('assets/levels/' + str(name) + '.json')

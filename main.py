@@ -84,13 +84,15 @@ class Game:
                 if 'paused' not in self.ui.states:
                     if is_key_pressed(KeyboardKey.KEY_P):
                         self.ui.states.append('paused')
+                        
+                    self.actors.run()
+                    self.move_camera()
+                    self.clamp_camera()    
 
                 set_shader_value(self.darkness, self.lpos_loc, self.actors.player.weapon.pos.toray(), ShaderAttributeDataType.SHADER_ATTRIB_VEC2)
                 set_shader_value(self.darkness, self.cam_loc, self.screen_camera.target, ShaderAttributeDataType.SHADER_ATTRIB_VEC2)
 
-                self.actors.run()
-                self.move_camera()
-                self.clamp_camera()
+                
 
             
             begin_texture_mode(self.screen)
@@ -104,10 +106,12 @@ class Game:
                 if is_mouse_button_pressed(1):
                     self.actors.monsters.add(Ghost(rh.Rect(self.mouse.x, self.mouse.y, 9, 13)), 'ghost')
                 
+                
+
+                self.tiles.draw()
                 for s in self.shadows:
                     draw_rectangle_rec(s, Color(30, 30, 30, 60))
 
-                self.tiles.draw()
                 self.actors.draw()
                 self.particles.run()
 
