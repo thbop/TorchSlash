@@ -8,10 +8,34 @@ class ETiles(Tiles):
     def __init__(self, gm):
         super().__init__(gm)
 
-        self.wrap_tiles = [[]]
+        self.wrap_solids = [[]]
+        self.wrap_airs = [[]]
+    
+    def blank_wrap(self, size):
+        return [[0 for j in range(round(size[0] / 10))] for i in range(round(size[1] / 10))]
+    
+    def add_w(self, pos, solid=True, v=1):
+        try:
+            if solid:
+                self.wrap_solids[pos[0]][pos[1]] = v
+            else:
+                
+                self.wrap_airs[pos[0]][pos[1]] = v
+        except IndexError:
+            print(f'Tile at {pos} out of world range! Tile not placed.')
     
     def load(self, filename):
         level = super().load(filename)
+        self.wrap_solids = self.blank_wrap(level['size'])
+        for sk in level['solids']:
+            for t in level['solids'][sk]:
+                self.add_w([round(t[0] / 10), round(t[1] / 10)])
+        
+        self.wrap_airs = self.blank_wrap(level['size'])
+        for ak in level['airs']:
+            for t in level['airs'][ak]:
+                self.add_w([round(t[0] / 10), round(t[1] / 10)])
+        
 
 
 

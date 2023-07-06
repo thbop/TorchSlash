@@ -63,9 +63,9 @@ class Player(g.Actor, g.Collider, g.Animator):
                     'speed':6,
                     'frames':[
                         base_image,
-                        self.ss.image_at(Rectangle(0, 25, 9, 13)),
-                        self.ss.image_at(Rectangle(9, 25, 9, 13)),
-                        self.ss.image_at(Rectangle(0, 25, 9, 13))
+                        self.ss.image_at(Rectangle(0, 26, 9, 13)),
+                        self.ss.image_at(Rectangle(9, 26, 9, 13)),
+                        self.ss.image_at(Rectangle(0, 26, 9, 13))
                     ]
                 }
             },
