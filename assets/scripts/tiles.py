@@ -48,6 +48,7 @@ class Tiles:
 
         self.solids = []
         self.airs = [] # These tiles are displayed but do not collide with actors
+        self.level_size = Vector2(0, 0)
     
     def add(self, rect, tile, i, solid=True):
         if solid:
@@ -59,6 +60,8 @@ class Tiles:
         file = open('assets/levels/' + str(name) + '.json')
         level = json.load(file)
         file.close()
+
+        self.level_size = Vector2(level['size'][0], level['size'][1])
 
         for sk in level['solids']:
             for t in level['solids'][sk]:

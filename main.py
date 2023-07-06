@@ -32,14 +32,15 @@ class Game:
         self.screen_camera.zoom = 1.0
 
 
+
         # self.window_camera = Camera2D()
         # self.window_camera.zoom = 1.0
 
         self.screen = load_render_texture(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
 
         self.darkness = load_shader(0, 'assets/scripts/shaders/darkness.glsl')
-
         self.lpos_loc = get_shader_location(self.darkness, 'lpos')
+        self.cam_loc = get_shader_location(self.darkness, 'cpos')
         
 
         self.mouse = Vector2(0, 0)
@@ -64,7 +65,13 @@ class Game:
         self.mouse.x += self.screen_camera.target.x
         self.mouse.y += self.screen_camera.target.y
 
-        
+    def move_camera(self):
+        self.screen_camera.target.x += (self.actors.player.rect.x - self.screen_camera.target.x - 155) / 20
+        self.screen_camera.target.y += (self.actors.player.rect.y - self.screen_camera.target.y - 84) / 20
+    
+    def clamp_camera(self):
+        self.screen_camera.target.x = clamp(self.screen_camera.target.x, 0, self.tiles.level_size.x - self.SCREEN_WIDTH)
+        self.screen_camera.target.y = clamp(self.screen_camera.target.y, 0, self.tiles.level_size.y - self.SCREEN_HEIGHT)
 
     def run(self):
         while not window_should_close():
@@ -79,8 +86,11 @@ class Game:
                         self.ui.states.append('paused')
 
                 set_shader_value(self.darkness, self.lpos_loc, self.actors.player.weapon.pos.toray(), ShaderAttributeDataType.SHADER_ATTRIB_VEC2)
+                set_shader_value(self.darkness, self.cam_loc, self.screen_camera.target, ShaderAttributeDataType.SHADER_ATTRIB_VEC2)
 
                 self.actors.run()
+                self.move_camera()
+                self.clamp_camera()
 
             
             begin_texture_mode(self.screen)

@@ -1,5 +1,5 @@
 from pyray import *
-from assets.scripts import general as g
+from assets.scripts import actor as g
 import assets.lib.rayhelper as rh
 
 from .player import Player

@@ -29,9 +29,6 @@ class Actor:
     def get_shadow_rect(self):
         f_height = self.rect.height / 8
         return Rectangle(self.rect.x + 1, self.rect.y + f_height * 7, self.rect.width - 2, f_height)
-
-    def draw_shadow(self):
-        draw_rectangle_rec(self.get_shadow_rect(), Color(30, 30, 30, 100))
     
     def get_pos_vec(self):
         return rh.vec2(self.rect.centerx, self.rect.centery)

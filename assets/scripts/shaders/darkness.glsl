@@ -5,6 +5,7 @@
 // in vec4 fragColor;
 
 uniform vec2 lpos;
+uniform vec2 cpos;
 
 // Output fragment color
 out vec4 finalColor;
@@ -13,7 +14,7 @@ out vec4 finalColor;
 
 void main()
 {   
-    vec2 pos = vec2(gl_FragCoord.x, -gl_FragCoord.y + 180);
+    vec2 pos = vec2(gl_FragCoord.x, -gl_FragCoord.y + 180) + cpos;
     float alpha = distance(pos, lpos);
     finalColor = vec4(0, 0, 0, alpha/70);
 }
