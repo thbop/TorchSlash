@@ -69,6 +69,9 @@ class Tiles:
         for ak in level['airs']:
             for t in level['airs'][ak]:
                 self.add(rh.Rect(t[0], t[1], 10, 10), ak, t[2], solid=False)
+        
+        
+        return level
     
     def draw(self):
         for t in self.solids + self.airs:
