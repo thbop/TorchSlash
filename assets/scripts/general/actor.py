@@ -37,4 +37,7 @@ class Actor:
         return rh.vec2(self.rect.centerx, self.rect.centery)
 
     def get_pointed_vec(self, target):
-        return ( target - self.get_pos_vec() ).normalize()
+        dif = ( target - self.get_pos_vec() )
+        if dif == rh.vec2(0, 0):
+            return rh.vec2(0, 0)
+        return dif.normalize()

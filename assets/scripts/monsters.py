@@ -38,8 +38,9 @@ class Ghost(Monster):
         self.ani_draw(Color(self.tint, self.tint + 6, self.tint, self.tint))
 
 class Monsters:
-    def __init__(self, gm):
+    def __init__(self, gm, actors):
         self.gm = gm
+        self.actors = actors
 
         self.ss_types = {
             'ghost': rh.spritesheet('assets/graphics/monsters/ghost/sprites.png')
@@ -67,7 +68,7 @@ class Monsters:
         for m in self.monsters:
             other_monsters = self.monsters.copy()
             other_monsters.remove(m)
-            m.step(self.gm.player.pos, [], other_monsters)
+            m.step(self.actors.player.pos, self.gm.tiles.solids, other_monsters)
 
             self.gm.shadows.append(m.get_shadow_rect())
 

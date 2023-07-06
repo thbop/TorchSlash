@@ -1,9 +1,14 @@
 from pyray import *
 import assets.lib.rayhelper as rh
 
-from assets.scripts.player import Player
+from assets.scripts.monsters import Ghost
+
+from assets.scripts.actors import Actors
 from assets.scripts.particles import Particles
-from assets.scripts.monsters import Monsters, Ghost
+from assets.scripts.tiles import Tiles
+
+
+from assets.scripts.ui import Ui
 
 class Game:
     def __init__(self):
@@ -26,6 +31,7 @@ class Game:
         self.screen_camera = Camera2D()
         self.screen_camera.zoom = 1.0
 
+
         # self.window_camera = Camera2D()
         # self.window_camera.zoom = 1.0
 
@@ -38,9 +44,13 @@ class Game:
 
         self.mouse = Vector2(0, 0)
 
-        self.player = Player(self)
+        self.ui = Ui(self)
+
+        self.tiles = Tiles(self)
+        self.tiles.load(0)
+
+        self.actors = Actors(self)
         self.particles = Particles()
-        self.monsters = Monsters(self)
 
         self.shadows = []
 
@@ -58,40 +68,48 @@ class Game:
 
     def run(self):
         while not window_should_close():
-            self.get_mouse()
-            self.shadows = []
+            if 'ingame' in self.ui.states:
+                self.get_mouse()
+                self.shadows = []
 
-            self.player.run()
-            self.monsters.run()
+                
 
-            set_shader_value(self.darkness, self.lpos_loc, self.player.weapon.pos.toray(), ShaderAttributeDataType.SHADER_ATTRIB_VEC2)
+                if 'paused' not in self.ui.states:
+                    if is_key_pressed(KeyboardKey.KEY_P):
+                        self.ui.states.append('paused')
+
+                set_shader_value(self.darkness, self.lpos_loc, self.actors.player.weapon.pos.toray(), ShaderAttributeDataType.SHADER_ATTRIB_VEC2)
+
+                self.actors.run()
 
             
             begin_texture_mode(self.screen)
             
 
-            clear_background(Color(130, 100, 100, 255))
-            
-            begin_mode_2d(self.screen_camera)
+            clear_background(Color(179, 120, 93, 255))
 
-            if is_mouse_button_pressed(1):
-                self.monsters.add(Ghost(rh.Rect(self.mouse.x, self.mouse.y, 9, 13)), 'ghost')
-            
-            for s in self.shadows:
-                draw_rectangle_rec(s, Color(30, 30, 30, 60))
+            if 'ingame' in self.ui.states:
+                begin_mode_2d(self.screen_camera)
 
-            
-            self.monsters.draw()
-            self.player.draw()
-            self.particles.run()
+                if is_mouse_button_pressed(1):
+                    self.actors.monsters.add(Ghost(rh.Rect(self.mouse.x, self.mouse.y, 9, 13)), 'ghost')
+                
+                for s in self.shadows:
+                    draw_rectangle_rec(s, Color(30, 30, 30, 60))
 
-            
+                self.tiles.draw()
+                self.actors.draw()
+                self.particles.run()
 
-            end_mode_2d()
+                
 
-            begin_shader_mode(self.darkness)
-            draw_rectangle(0, 0, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, WHITE)
-            end_shader_mode()
+                end_mode_2d()
+
+                begin_shader_mode(self.darkness)
+                draw_rectangle(0, 0, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, WHITE)
+                end_shader_mode()
+
+            self.ui.run()
 
             end_texture_mode()
 
@@ -106,8 +124,8 @@ class Game:
         end_drawing()
     
     def unload(self):
-        self.player.unload()
-        self.monsters.unload()
+        self.actors.unload()
+        self.tiles.unload()
 
         unload_render_texture(self.screen)
         close_window()

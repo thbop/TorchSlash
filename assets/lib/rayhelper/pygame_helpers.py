@@ -13,6 +13,8 @@ class Rect(pygame.FRect):
         super().__init__(x, y, width, height)
     def toray(self):
         return Rectangle(self.x, self.y, self.width, self.height)
+    def toray_vec2(self):
+        return Vector2(self.x, self.y)
 
 
 class vec2(_Vector2):

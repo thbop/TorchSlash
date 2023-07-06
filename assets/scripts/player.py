@@ -31,8 +31,10 @@ class Weapon(g.Actor):
 
 
 class Player(g.Actor, g.Collider, g.Animator):
-    def __init__(self, gm):
+    def __init__(self, gm, actors):
         self.gm = gm
+        self.actors = actors
+
         super().__init__(rh.Rect(10, 10, 9, 13))
 
         self.SPEED = 1.4
@@ -103,7 +105,7 @@ class Player(g.Actor, g.Collider, g.Animator):
             self.z_vel = self.JUMP_VEL
 
 
-        self.collider_update([], [])
+        self.collider_update(self.gm.tiles.solids, [])
 
         
 

@@ -1,8 +1,8 @@
 #version 330
 
 // Input vertex attributes (from vertex shader)
-in vec2 fragTexCoord;
-in vec4 fragColor;
+// in vec2 fragTexCoord;
+// in vec4 fragColor;
 
 uniform vec2 lpos;
 
@@ -14,8 +14,6 @@ out vec4 finalColor;
 void main()
 {   
     vec2 pos = vec2(gl_FragCoord.x, -gl_FragCoord.y + 180);
-    float alpha = sqrt( 
-        pow(lpos.x - pos.x, 2) + pow(lpos.y - pos.y, 2)
-     );
-    finalColor = vec4(0, 0, 0, alpha / 100);
+    float alpha = distance(pos, lpos);
+    finalColor = vec4(0, 0, 0, alpha/70);
 }
