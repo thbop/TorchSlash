@@ -30,7 +30,7 @@ class Weapon(g.Actor):
         self.ss.unload()
 
 
-class Player(g.Actor, g.Collider, g.Animator):
+class Player(g.Actor, g.Collider, g.Animator, g.Alive):
     def __init__(self, gm, actors):
         self.gm = gm
         self.actors = actors
@@ -76,6 +76,8 @@ class Player(g.Actor, g.Collider, g.Animator):
 
         self.direction = rh.vec2(1, 0)
         self.pos = self.get_pos_vec()
+
+        self.alive_setup(48)
     
     def animate(self):
         if abs(self.movement.x) < 0.5 and abs(self.movement.y) < 0.5:
@@ -106,8 +108,6 @@ class Player(g.Actor, g.Collider, g.Animator):
 
 
         self.collider_update(self.gm.tiles.solids, [])
-
-        
 
         self.gm.shadows.append(self.get_shadow_rect())
 

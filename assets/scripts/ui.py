@@ -33,6 +33,10 @@ class Ui:
         self.button(Rectangle(10, 10, 50, 11), 'Play', self.play)
         self.button(Rectangle(10, 25, 50, 11), 'Controls', self.play)
         self.button(Rectangle(10, 40, 50, 11), 'Back', self.play)
+    
+    def hud(self, health):
+        draw_rectangle_lines_ex(Rectangle(10, 10, 50, 10), 1, WHITE)
+        draw_rectangle_rec(Rectangle(11, 11, health, 8), RED)
 
     def run(self):
         self.get_mouse()

@@ -96,11 +96,12 @@ class Game:
 
             
             begin_texture_mode(self.screen)
-            
 
             clear_background(Color(179, 120, 93, 255))
 
             if 'ingame' in self.ui.states:
+                
+
                 begin_mode_2d(self.screen_camera)
 
                 if is_mouse_button_pressed(1):
@@ -123,7 +124,10 @@ class Game:
                 draw_rectangle(0, 0, self.SCREEN_WIDTH, self.SCREEN_HEIGHT, WHITE)
                 end_shader_mode()
 
+                self.ui.hud(self.actors.player.health)
+
             self.ui.run()
+
 
             end_texture_mode()
 

@@ -6,7 +6,7 @@ from math import radians, cos
 from random import randint
 
 
-class Monster(g.Actor, g.Collider, g.Animator):
+class Monster(g.Actor, g.Collider, g.Animator, g.Alive):
     def init(self, ani):
         self.ani_setup(ani, 'walk')
 
@@ -23,6 +23,7 @@ class Ghost(Monster):
         self.float_tick = 1
 
         self.tint = randint(160, 200)
+        self.alive_setup(20, 5)
     
     def run(self):
         if self.float_tick < 360:

@@ -19,7 +19,9 @@ class Actors:
 
     
     def run(self):
+        self.player.alive_check_hit(self.monsters.monsters)
         self.player.run()
+        
         self.monsters.run()
     
     def draw(self):
